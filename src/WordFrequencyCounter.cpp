@@ -6,8 +6,9 @@
 #include <unordered_map>
 #include <sstream>
 #include <queue>
+#include <format>
 #include <filesystem>
-
+#include <algorithm>
 
 class TextProcessor
 {
@@ -91,7 +92,7 @@ int main(int argc, char* argv[])
 {
 	if (argc != 3)
 	{
-		std::cerr << "Usage: ./WordFrequencyCounter [input_file] [output_file]";
+		std::cerr << "Usage: ./WordFrequencyCounter [input_file] [output_file]\n";
 		return 0;
 	}
 
@@ -99,7 +100,10 @@ int main(int argc, char* argv[])
 	std::filesystem::path inputFileName = argv[1];
 	std::filesystem::path outputFileName = argv[2];
 
-	//std::uintmax_t fileSize = std::filesystem::file_size(inputFileName);
+	if (!std::filesystem::exists(inputFileName))
+	{
+		std::cerr << std::format("Input file {} doesn't exist\n", inputFileName.string());
+	}
 
 	std::ifstream input(inputFileName);	
 	std::string content(std::istreambuf_iterator<char>(input), {});
